@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'features/top_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -23,13 +25,17 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Hello World"),
+    return MaterialApp(
+      title: 'wish list app',
+      theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: "NotoSansJP",
+        colorSchemeSeed: const Color.fromARGB(255, 35, 72, 132),
+        // ColorPalette => https://colorscheme.enoiu.com/
       ),
-      body: const Center(
-        child: Text("Hello World"),
-      ),
+      routes: {
+        '/': (context) => const TopPage(),
+      },
     );
   }
 }
