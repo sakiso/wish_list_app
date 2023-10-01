@@ -1,1 +1,7 @@
-# wish_list_app
+
+
+
+## TODO
+環境構築
+- Isar
+- Riverpod
