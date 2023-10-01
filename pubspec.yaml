@@ -30,6 +30,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # # ↓ここから追加分
+  flutter_riverpod: 2.4.1
+  # path_provider: 2.0.15
+  # isar: 3.1.0
+  # # ↑ここまで追加分
+
 
 
   # The following adds the Cupertino Icons font to your application.
