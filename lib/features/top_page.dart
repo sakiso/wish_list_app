@@ -6,7 +6,8 @@ class TopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(child: Text('Top Page')),
+      body: const Center(
+          child: Text('ここでボタン押して画像読み込んでTextRecognizerで文字認識して、その結果を表示する')),
       appBar: AppBar(
         title: Text(
           "top",
