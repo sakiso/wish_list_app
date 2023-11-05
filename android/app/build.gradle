@@ -71,4 +71,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // google_mlkit_text_recognition の文字認識に必要な日本語データをインストール
     implementation 'com.google.mlkit:text-recognition-japanese:16.0.0-beta6'
+    implementation 'com.google.mlkit:playstore-dynamic-feature-support:16.0.0-beta2'
 }

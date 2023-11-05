@@ -40,13 +40,21 @@ class TopPage extends StatelessWidget {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      // todo: クラッシュする
-      final inputImage = InputImage.fromFilePath(result.files.single.path!);
-      final textRecognizer =
-          TextRecognizer(script: TextRecognitionScript.japanese);
+      print(result.files.single.path!);
+      print("result.files.single.path!");
 
+      final inputImage = InputImage.fromFile(File(result.files.single.path!));
+
+      print("inputImage");
+      print(inputImage);
+      final textRecognizer = TextRecognizer();
+
+      print("-----------------");
+
+      // todo: TextRecognizerのスクリプトに日本語を設定していると、ここでクラッシュする
       final RecognizedText recognizedText =
           await textRecognizer.processImage(inputImage);
+      print("@@@@@@@@@@@@@@@@");
 
       print("recognize");
     } else {}
