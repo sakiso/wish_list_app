@@ -2,24 +2,27 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
-class TopPage extends StatelessWidget {
+import '../domains/recognized_text_provider.dart';
+
+class TopPage extends ConsumerWidget {
   const TopPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Center(
           child: Column(
         children: [
-          const Text('文字解析の結果を表示したい'),
           TextButton(
             onPressed: () async {
-              await textRecognize();
+              await textRecognize(ref);
             },
             child: const Text('ボタン'),
-          )
+          ),
+          Text(ref.watch(recognizedTextProvider).text),
         ],
       )),
       appBar: AppBar(
@@ -36,45 +39,22 @@ class TopPage extends StatelessWidget {
     );
   }
 
-  Future<void> textRecognize() async {
+  Future<void> textRecognize(ref) async {
+    // todo: メソッド分割
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
+    //todo: 読み込み中にローディングを出す
     if (result != null) {
-      print(result.files.single.path!);
-      print("result.files.single.path!");
-
       final inputImage = InputImage.fromFile(File(result.files.single.path!));
-
-      print("inputImage");
-      print(inputImage);
       final textRecognizer =
           TextRecognizer(script: TextRecognitionScript.japanese);
 
-      print("-----------------");
-
-      // todo: TextRecognizerのスクリプトに日本語を設定していると、ここでクラッシュする
       final RecognizedText recognizedText =
           await textRecognizer.processImage(inputImage);
-      print("@@@@@@@@@@@@@@@@");
 
-      print(recognizedText.text);
-
-      print("recognize");
-    } else {}
-
-    // String text = recognizedText.text;
-    // for (TextBlock block in recognizedText.blocks) {
-    //   final Rect rect = block.boundingBox;
-    //   final List<Point<int>> cornerPoints = block.cornerPoints;
-    //   final String text = block.text;
-    //   final List<String> languages = block.recognizedLanguages;
-
-    //   for (TextLine line in block.lines) {
-    //     // Same getters as TextBlock
-    //     for (TextElement element in line.elements) {
-    //       // Same getters as TextBlock
-    //     }
-    //   }
-    // }
+      ref
+          .watch(recognizedTextProvider.notifier)
+          .update((state) => recognizedText);
+    }
   }
 }
