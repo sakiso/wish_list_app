@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 class TopPage extends StatelessWidget {
   const TopPage({Key? key}) : super(key: key);
@@ -6,8 +10,18 @@ class TopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-          child: Text('ここでボタン押して画像読み込んでTextRecognizerで文字認識して、その結果を表示する')),
+      body: Center(
+          child: Column(
+        children: [
+          const Text('文字解析の結果を表示したい'),
+          TextButton(
+            onPressed: () async {
+              await textRecognize();
+            },
+            child: const Text('ボタン'),
+          )
+        ],
+      )),
       appBar: AppBar(
         title: Text(
           "top",
@@ -20,5 +34,36 @@ class TopPage extends StatelessWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
     );
+  }
+
+  Future<void> textRecognize() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      // todo: クラッシュする
+      final inputImage = InputImage.fromFilePath(result.files.single.path!);
+      final textRecognizer =
+          TextRecognizer(script: TextRecognitionScript.japanese);
+
+      final RecognizedText recognizedText =
+          await textRecognizer.processImage(inputImage);
+
+      print("recognize");
+    } else {}
+
+    // String text = recognizedText.text;
+    // for (TextBlock block in recognizedText.blocks) {
+    //   final Rect rect = block.boundingBox;
+    //   final List<Point<int>> cornerPoints = block.cornerPoints;
+    //   final String text = block.text;
+    //   final List<String> languages = block.recognizedLanguages;
+
+    //   for (TextLine line in block.lines) {
+    //     // Same getters as TextBlock
+    //     for (TextElement element in line.elements) {
+    //       // Same getters as TextBlock
+    //     }
+    //   }
+    // }
   }
 }

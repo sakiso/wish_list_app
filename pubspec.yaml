@@ -33,6 +33,7 @@ dependencies:
   # # ↓ここから追加分
   flutter_riverpod: 2.4.1
   google_mlkit_text_recognition: 0.10.0
+  file_picker: 6.1.1
   # path_provider: 2.0.15
   # isar: 3.1.0
   # # ↑ここまで追加分
