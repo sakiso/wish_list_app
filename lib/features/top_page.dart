@@ -47,7 +47,8 @@ class TopPage extends StatelessWidget {
 
       print("inputImage");
       print(inputImage);
-      final textRecognizer = TextRecognizer();
+      final textRecognizer =
+          TextRecognizer(script: TextRecognitionScript.japanese);
 
       print("-----------------");
 
@@ -55,6 +56,8 @@ class TopPage extends StatelessWidget {
       final RecognizedText recognizedText =
           await textRecognizer.processImage(inputImage);
       print("@@@@@@@@@@@@@@@@");
+
+      print(recognizedText.text);
 
       print("recognize");
     } else {}
