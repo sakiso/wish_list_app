@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 import '../domains/recognized_text_provider.dart';
@@ -22,7 +23,7 @@ class TopPage extends ConsumerWidget {
             },
             child: const Text('ボタン'),
           ),
-          Text(ref.watch(recognizedTextProvider).text),
+          Text(ref.watch(recognizedTextProvider)),
         ],
       )),
       appBar: AppBar(
@@ -46,15 +47,34 @@ class TopPage extends ConsumerWidget {
     //todo: 読み込み中にローディングを出す
     if (result != null) {
       final inputImage = InputImage.fromFile(File(result.files.single.path!));
+
+      // 文字認識
       final textRecognizer =
           TextRecognizer(script: TextRecognitionScript.japanese);
-
       final RecognizedText recognizedText =
           await textRecognizer.processImage(inputImage);
 
+      // ラベリング
+      final ImageLabelerOptions options =
+          ImageLabelerOptions(confidenceThreshold: 0.5);
+      final imageLabeler = ImageLabeler(options: options);
+      final List<ImageLabel> labels =
+          await imageLabeler.processImage(inputImage);
+      final firstLabelText = labels[0].label;
+
+      print("------------------");
+      for (final label in labels) {
+        print(label.label);
+      }
+      print("------------------");
+
       ref
           .watch(recognizedTextProvider.notifier)
-          .update((state) => recognizedText);
+          .update((state) => "${recognizedText.text}\n\n$firstLabelText");
+
+      // リソースの開放
+      textRecognizer.close();
+      imageLabeler.close();
     }
   }
 }
