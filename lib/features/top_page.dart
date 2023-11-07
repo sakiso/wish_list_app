@@ -41,6 +41,7 @@ class TopPage extends ConsumerWidget {
   }
 
   Future<void> textRecognize(ref) async {
+    // todo: 画像解析したら別ページで表示させるようにする
     // todo: メソッド分割
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -61,12 +62,6 @@ class TopPage extends ConsumerWidget {
       final List<ImageLabel> labels =
           await imageLabeler.processImage(inputImage);
       final firstLabelText = labels[0].label;
-
-      print("------------------");
-      for (final label in labels) {
-        print(label.label);
-      }
-      print("------------------");
 
       ref
           .watch(recognizedTextProvider.notifier)
