@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
-import '../domains/recognized_text_provider.dart';
+import '../../domains/recognized_text_provider.dart';
 
 class TopPage extends ConsumerWidget {
   const TopPage({Key? key}) : super(key: key);
