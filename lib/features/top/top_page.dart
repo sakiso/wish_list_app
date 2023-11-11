@@ -17,11 +17,11 @@ class TopPage extends ConsumerWidget {
       body: Center(
           child: Column(
         children: [
-          TextButton(
+          IconButton(
             onPressed: () async {
               await textRecognize(ref);
             },
-            child: const Text('ボタン'),
+            icon: const Icon(Icons.add_photo_alternate_rounded),
           ),
           Text(ref.watch(recognizedTextProvider)),
         ],
@@ -48,6 +48,7 @@ class TopPage extends ConsumerWidget {
     //todo: 読み込み中にローディングを出す
     if (result != null) {
       final inputImage = InputImage.fromFile(File(result.files.single.path!));
+      // todo: 画像じゃなかったらリターン
 
       // 文字認識
       final textRecognizer =
