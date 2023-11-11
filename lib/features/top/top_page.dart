@@ -3,11 +3,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wish_list_app/domains/image_labeling.dart';
 
-import '../../domains/text_recognize.dart';
-import '../../domains/wish_item.dart';
 import '../../providers/wish_item_provider.dart';
+import '../../services/wish_item_builder_from_image_file.dart';
 
 class TopPage extends ConsumerWidget {
   const TopPage({Key? key}) : super(key: key);
@@ -56,27 +54,16 @@ class TopPage extends ConsumerWidget {
 
       Navigator.pushNamed(context, '/item_edit');
 
-      // 画像解析(文字認識・ラベリング)
-      final textRecognizer = TextRecognize(targetFile);
-      final imageLabeler = ImageLabeling(targetFile);
-      // todo: 並列処理にしたい
-      final recognizedText = await textRecognizer.recognize();
-      final imageLabel = await imageLabeler.firstLabel();
-
-      // todo: ブランドと商品名を取得するためエンティティ分析したい(google_mlkit_entity_extraction)
-
-      // リソース解放
-      textRecognizer.closeResources();
-      imageLabeler.closeResources();
+      // // 画像解析(文字認識・ラベリング)
+      // final textRecognizer = TextRecognize(targetFile);
+      // final imageLabeler = ImageLabeling(targetFile);
+      // // todo: 並列処理にしたい
+      // final recognizedText = await textRecognizer.recognize();
+      // final imageLabel = await imageLabeler.firstLabel();
 
       // todo: wishItemオブジェクトつくってそれをProviderで共有する
-      final wishItem = WishItem(
-        recognizedText.text,
-        "",
-        imageLabel,
-        recognizedText,
-        0,
-      );
+      final wishItem = wishItemBuilderFromImageFile(targetFile);
+
       ref.watch(wishItemProvider.notifier).update((state) => wishItem);
     }
 

@@ -1,3 +1,4 @@
+import 'package:google_mlkit_entity_extraction/google_mlkit_entity_extraction.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
@@ -6,24 +7,30 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 class WishItem {
   final String name;
   final String brand;
-  final ImageLabel label;
+  final ImageLabel imageLabel;
   final RecognizedText recognizedText;
-  final int price;
+  int price = 0;
 
 // todo: 画像
 
-  WishItem(
-    this.name,
-    this.brand,
-    this.label,
-    this.recognizedText,
-    this.price,
-  );
+  WishItem({
+    required this.name,
+    required this.brand,
+    required this.imageLabel,
+    required this.recognizedText,
+    required this.price,
+  });
 
-  priceWithCurrency() {
+  String get priceWithCurrency {
     // 円固定
     return "¥$price";
   }
 
+  String get label {
+    // 円固定
+    return imageLabel.label;
+  }
+
+  // todo: recognizeとかと合わせてビルダーにする
   // todo: recognizedTextに対するエンティティ
 }

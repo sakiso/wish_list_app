@@ -23,7 +23,8 @@ class ItemEditPage extends ConsumerWidget {
         child: Column(
           children: [
             Text(ref.watch(wishItemProvider).recognizedText.text),
-            Text(ref.watch(wishItemProvider).label.label),
+            Text(ref.watch(wishItemProvider).label),
+            Text(ref.watch(wishItemProvider).priceWithCurrency),
           ],
         ),
       ),
