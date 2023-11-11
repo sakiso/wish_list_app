@@ -51,11 +51,10 @@ class TopPage extends ConsumerWidget {
       final targetFile = File(result.files.single.path!);
       // todo: 画像じゃなかったらリターン
 
-      Navigator.pushNamed(context, '/item_edit');
-
       final wishItem = await wishItemBuilderFromImageFile(targetFile);
+      await ref.watch(wishItemProvider.notifier).update((state) => wishItem);
 
-      ref.watch(wishItemProvider.notifier).update((state) => wishItem);
+      Navigator.pushNamed(context, '/item_edit');
     }
 
     return;

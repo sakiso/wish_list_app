@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/wish_item_provider.dart';
+import 'price_input_formatter.dart';
 
 class ItemEditPage extends ConsumerWidget {
   const ItemEditPage({Key? key}) : super(key: key);
@@ -30,16 +31,15 @@ class ItemEditPage extends ConsumerWidget {
                 const Spacer(),
                 Flexible(
                   child: TextFormField(
-                    initialValue: ref.watch(wishItemProvider).priceWithCurrency,
+                    initialValue:
+                        ref.watch(wishItemProvider).price.priceWithCurrency,
                     keyboardType: TextInputType.number,
+                    textAlign: TextAlign.end,
                     inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly
+                      FilteringTextInputFormatter.digitsOnly,
+                      PriceInputFormatter(),
                     ], // 追加
                   ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text('>'),
                 ),
               ],
             ),

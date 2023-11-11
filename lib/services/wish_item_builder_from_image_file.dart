@@ -2,6 +2,7 @@ import 'dart:io';
 
 import '../domains/extract_price_from_recognized_text.dart';
 import '../domains/image_labeling.dart';
+import '../domains/price.dart';
 import '../domains/text_recognize.dart';
 import '../domains/wish_item.dart';
 
@@ -28,6 +29,6 @@ Future<WishItem> wishItemBuilderFromImageFile(File imageFile) async {
     brand: "",
     imageLabel: imageLabel,
     recognizedText: recognizedText,
-    price: itemPrice,
+    price: Price(itemPrice),
   );
 }
