@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:wish_list_app/domains/image_labeling.dart';
 
-import '../../domains/recognized_text_provider.dart';
+import '../../domains/text_recognize.dart';
+import '../../providers/recognized_text_provider.dart';
 
 class TopPage extends ConsumerWidget {
   const TopPage({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class TopPage extends ConsumerWidget {
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: IconButton(
               onPressed: () async {
-                await textRecognize(ref);
+                await textRecognize(context, ref);
               },
               icon: const Icon(Icons.add_photo_alternate_rounded),
               color: Theme.of(context).colorScheme.onPrimary,
@@ -44,37 +44,30 @@ class TopPage extends ConsumerWidget {
     );
   }
 
-  Future<void> textRecognize(ref) async {
-    // todo: 画像解析したら別ページで表示させるようにする
+  Future<void> textRecognize(context, ref) async {
     // todo: メソッド分割
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     //todo: 読み込み中にローディングを出す
     if (result != null) {
-      final inputImage = InputImage.fromFile(File(result.files.single.path!));
+      final targetFile = File(result.files.single.path!);
       // todo: 画像じゃなかったらリターン
 
-      // 文字認識
-      final textRecognizer =
-          TextRecognizer(script: TextRecognitionScript.japanese);
-      final RecognizedText recognizedText =
-          await textRecognizer.processImage(inputImage);
+      // Navigator.pushNamed(context, '/item_edit');
 
-      // ラベリング
-      final ImageLabelerOptions options =
-          ImageLabelerOptions(confidenceThreshold: 0.5);
-      final imageLabeler = ImageLabeler(options: options);
-      final List<ImageLabel> labels =
-          await imageLabeler.processImage(inputImage);
-      final firstLabelText = labels[0].label;
+      // todo: 並列処理にしたい
+      // 画像解析(文字認識・ラベリング)
+      final textRecognizer = TextRecognize(targetFile);
+      final imageLabeler = ImageLabeling(targetFile);
+      final recognizedText = await textRecognizer.recognize();
+      final imageLabel = await imageLabeler.firstLabel();
+
+      textRecognizer.closeResources();
+      imageLabeler.closeResources();
 
       ref
           .watch(recognizedTextProvider.notifier)
-          .update((state) => "${recognizedText.text}\n\n$firstLabelText");
-
-      // リソースの開放
-      textRecognizer.close();
-      imageLabeler.close();
+          .update((state) => "${recognizedText.text}\n\n${imageLabel.label}");
     }
   }
 }

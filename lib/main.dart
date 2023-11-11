@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'features/edit/edit_page.dart';
+import 'features/item_edit/item_edit_page.dart';
 import 'features/top/top_page.dart';
 
 void main() {
@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const TopPage(),
-        '/edit': (context) => const EditPage(),
+        '/item_edit': (context) => const ItemEditPage(),
       },
     );
   }
