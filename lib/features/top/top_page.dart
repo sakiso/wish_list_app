@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/wish_item_provider.dart';
+import '../../providers/loading_overlay_provider.dart';
 import '../../services/wish_item_builder_from_image_file.dart';
 import '../loading_overlay/loading_overlay.dart';
 
@@ -34,8 +35,8 @@ class TopPage extends ConsumerWidget {
               ],
             ),
           ),
-          const LoadingOverlay(
-            visible: true,
+          LoadingOverlay(
+            visible: ref.watch(loadingOverlayProvider),
           ),
         ],
       ),
@@ -55,19 +56,42 @@ class TopPage extends ConsumerWidget {
 
   Future<void> textRecognizeFromPickedFile(context, ref) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    //todo: 読み込み中にローディングを出してダブルサブミット防止
-
-    if (result != null) {
-      final targetFile = File(result.files.single.path!);
-      // todo: 画像じゃなかったらリターン
-
-      final wishItem = await wishItemBuilderFromImageFile(targetFile);
-      await ref.watch(wishItemProvider.notifier).update((state) => wishItem);
-
-      Navigator.pushNamed(context, '/item_edit');
+    if (result == null) {
+      _turnOffLoadingOverlay(ref);
+      return;
+    }
+    if (_isNotImage(result.files.single.path!)) {
+      _turnOffLoadingOverlay(ref);
+      return;
     }
 
+    // ローディング画面表示
+    ref.read(loadingOverlayProvider.notifier).update((state) => true);
+
+    final targetFile = File(result.files.single.path!);
+    final wishItem = await wishItemBuilderFromImageFile(targetFile);
+    await ref.watch(wishItemProvider.notifier).update((state) => wishItem);
+
+    Navigator.pushNamed(context, '/item_edit');
+
+    _turnOffLoadingOverlay(ref);
     return;
+  }
+
+  bool _isNotImage(String filePath) {
+    final lowerCaseFilePath = filePath.toLowerCase();
+
+    if (lowerCaseFilePath.endsWith('.jpg') ||
+        lowerCaseFilePath.endsWith('.jpeg') ||
+        lowerCaseFilePath.endsWith('.png') ||
+        lowerCaseFilePath.endsWith('.bmp')) {
+      return false;
+    }
+    // どの拡張子にも一致しない場合は画像ではないと判断
+    return true;
+  }
+
+  void _turnOffLoadingOverlay(ref) {
+    ref.read(loadingOverlayProvider.notifier).update((state) => false);
   }
 }

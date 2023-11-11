@@ -24,7 +24,7 @@ class LoadingOverlay extends StatelessWidget {
                   width: 80,
                   height: 80,
                   child: CircularProgressIndicator(
-                    strokeWidth: 8,
+                    strokeWidth: 7,
                     valueColor: AlwaysStoppedAnimation<Color>(
                         Theme.of(context).colorScheme.inversePrimary),
                   ),
