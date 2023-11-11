@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/wish_item_provider.dart';
 
@@ -30,6 +31,10 @@ class ItemEditPage extends ConsumerWidget {
                 Flexible(
                   child: TextFormField(
                     initialValue: ref.watch(wishItemProvider).priceWithCurrency,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly
+                    ], // 追加
                   ),
                 ),
                 TextButton(
