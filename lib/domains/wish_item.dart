@@ -1,4 +1,3 @@
-import 'package:google_mlkit_entity_extraction/google_mlkit_entity_extraction.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
@@ -9,9 +8,9 @@ class WishItem {
   final String brand;
   final ImageLabel imageLabel;
   final RecognizedText recognizedText;
-  int price = 0;
+  final int price;
 
-// todo: 画像
+// todo: 画像も表示できるようにする
 
   WishItem({
     required this.name,
@@ -30,7 +29,4 @@ class WishItem {
     // 円固定
     return imageLabel.label;
   }
-
-  // todo: recognizeとかと合わせてビルダーにする
-  // todo: recognizedTextに対するエンティティ
 }

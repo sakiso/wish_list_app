@@ -50,19 +50,10 @@ class TopPage extends ConsumerWidget {
     if (result != null) {
       final targetFile = File(result.files.single.path!);
       // todo: 画像じゃなかったらリターン
-      // todo: 複数選択拒否れない？
 
       Navigator.pushNamed(context, '/item_edit');
 
-      // // 画像解析(文字認識・ラベリング)
-      // final textRecognizer = TextRecognize(targetFile);
-      // final imageLabeler = ImageLabeling(targetFile);
-      // // todo: 並列処理にしたい
-      // final recognizedText = await textRecognizer.recognize();
-      // final imageLabel = await imageLabeler.firstLabel();
-
-      // todo: wishItemオブジェクトつくってそれをProviderで共有する
-      final wishItem = wishItemBuilderFromImageFile(targetFile);
+      final wishItem = await wishItemBuilderFromImageFile(targetFile);
 
       ref.watch(wishItemProvider.notifier).update((state) => wishItem);
     }
