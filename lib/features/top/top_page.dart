@@ -46,7 +46,7 @@ class TopPage extends ConsumerWidget {
   Future<void> textRecognizeFromPickedFile(context, ref) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-    //todo: 読み込み中にローディングを出す
+    //todo: 読み込み中にローディングを出してダブルサブミット防止
     if (result != null) {
       final targetFile = File(result.files.single.path!);
       // todo: 画像じゃなかったらリターン

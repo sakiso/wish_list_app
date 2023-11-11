@@ -31,4 +31,6 @@ class WishItem {
     // 円固定
     return imageLabel.label;
   }
+
+  // todo: ImageLabelを翻訳して保存したほうがいいかも
 }

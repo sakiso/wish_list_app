@@ -23,8 +23,18 @@ class ItemEditPage extends ConsumerWidget {
         child: Column(
           children: [
             Text(ref.watch(wishItemProvider).recognizedText.text),
+            Row(
+              children: [
+                const Text("価格"),
+                const Spacer(),
+                Text(ref.watch(wishItemProvider).priceWithCurrency),
+                TextButton(
+                  onPressed: () {},
+                  child: Text('>'),
+                ),
+              ],
+            ),
             Text(ref.watch(wishItemProvider).label),
-            Text(ref.watch(wishItemProvider).priceWithCurrency),
           ],
         ),
       ),
