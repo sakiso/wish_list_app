@@ -17,11 +17,15 @@ class TopPage extends ConsumerWidget {
       body: Center(
           child: Column(
         children: [
-          IconButton(
-            onPressed: () async {
-              await textRecognize(ref);
-            },
-            icon: const Icon(Icons.add_photo_alternate_rounded),
+          CircleAvatar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            child: IconButton(
+              onPressed: () async {
+                await textRecognize(ref);
+              },
+              icon: const Icon(Icons.add_photo_alternate_rounded),
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
           Text(ref.watch(recognizedTextProvider)),
         ],

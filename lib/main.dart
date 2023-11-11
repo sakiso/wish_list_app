@@ -36,7 +36,7 @@ class MyHomePage extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: "NotoSansJP",
-        colorSchemeSeed: const Color.fromARGB(255, 35, 72, 132),
+        colorSchemeSeed: const Color.fromARGB(255, 0, 72, 157),
         // ColorPalette => https://colorscheme.enoiu.com/
       ),
       routes: {
