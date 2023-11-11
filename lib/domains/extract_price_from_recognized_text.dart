@@ -11,8 +11,23 @@ class ExtractPriceFromRecognizedText {
   Future<int> extract() async {
     int price = 0;
 
+    // NOTE: 日本語設定にしているはずだが"円"だと金額と認識されないので"¥"に置換してから分析する
+    final preprocessedText = recognizedText.text.replaceAll('円', '¥');
     final List<EntityAnnotation> annotations =
-        await entityExtractor.annotateText(recognizedText.text);
+        await entityExtractor.annotateText(preprocessedText);
+
+    print("---- recognizedText text-------------------");
+    print(recognizedText.text);
+
+    for (final annotation in annotations) {
+      for (final entity in annotation.entities) {
+        print("---- annotation entity-------------------");
+        print(annotation.text);
+        print(entity.rawValue);
+        print(entity.type);
+        print("-----------------------");
+      }
+    }
 
     for (final annotation in annotations) {
       if (annotation.entities

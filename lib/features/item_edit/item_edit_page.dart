@@ -24,6 +24,7 @@ class ItemEditPage extends ConsumerWidget {
       body: Form(
         child: Column(
           children: [
+            // todo: 高さ決めてスクロールできるようにする
             Text(ref.watch(wishItemProvider).recognizedText.text),
             // 価格入力欄
             Row(
@@ -45,6 +46,18 @@ class ItemEditPage extends ConsumerWidget {
               ],
             ),
             // ブランド入力欄
+            Row(
+              children: [
+                const Text("ブランド"),
+                const Spacer(),
+                Flexible(
+                  child: TextFormField(
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ],
+            ),
+            // カテゴリー入力欄
             Row(
               children: [
                 const Text("カテゴリー"),

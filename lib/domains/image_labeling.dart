@@ -13,7 +13,14 @@ class ImageLabeling {
     final inputImage = InputImage.fromFile(inputImageFile);
     final imageLabel = await imageLabeler.processImage(inputImage);
 
+    print("-- image label -----------");
+    print(imageLabel[0].label);
+    print(imageLabel[1].label);
+    print("--------------------------");
+
     return imageLabel[0];
+    // todo: 結構ScreenshotとかPosterになるので、カスタムモデルも検討
+    //       https://developers.google.com/ml-kit/vision/image-labeling?hl=ja#custom-tflite
   }
 
   closeResources() async {
