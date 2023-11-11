@@ -25,6 +25,7 @@ class ItemEditPage extends ConsumerWidget {
         child: Column(
           children: [
             Text(ref.watch(wishItemProvider).recognizedText.text),
+            // 価格入力欄
             Row(
               children: [
                 const Text("価格"),
@@ -38,12 +39,24 @@ class ItemEditPage extends ConsumerWidget {
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       PriceInputFormatter(),
-                    ], // 追加
+                    ],
                   ),
                 ),
               ],
             ),
-            Text(ref.watch(wishItemProvider).label),
+            // ブランド入力欄
+            Row(
+              children: [
+                const Text("カテゴリー"),
+                const Spacer(),
+                Flexible(
+                  child: TextFormField(
+                    textAlign: TextAlign.end,
+                    initialValue: ref.watch(wishItemProvider).label,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
