@@ -19,7 +19,7 @@ class ItemEditPage extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Center(
+      body: Form(
         child: Column(
           children: [
             Text(ref.watch(wishItemProvider).recognizedText.text),
@@ -27,7 +27,11 @@ class ItemEditPage extends ConsumerWidget {
               children: [
                 const Text("価格"),
                 const Spacer(),
-                Text(ref.watch(wishItemProvider).priceWithCurrency),
+                Flexible(
+                  child: TextFormField(
+                    initialValue: ref.watch(wishItemProvider).priceWithCurrency,
+                  ),
+                ),
                 TextButton(
                   onPressed: () {},
                   child: Text('>'),
