@@ -10,6 +10,8 @@ class WishItem {
   final RecognizedText recognizedText;
   final int price;
 
+// todo: 画像
+
   WishItem(
     this.name,
     this.brand,
@@ -22,4 +24,6 @@ class WishItem {
     // 円固定
     return "¥$price";
   }
+
+  // todo: recognizedTextに対するエンティティ
 }

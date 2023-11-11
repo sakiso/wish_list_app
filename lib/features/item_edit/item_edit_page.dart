@@ -8,8 +8,24 @@ class ItemEditPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "edit",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSecondary,
+            fontSize: 18,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
-        child: Text(ref.watch(wishItemProvider).recognizedText.text),
+        child: Column(
+          children: [
+            Text(ref.watch(wishItemProvider).recognizedText.text),
+            Text(ref.watch(wishItemProvider).label.label),
+          ],
+        ),
       ),
     );
   }
