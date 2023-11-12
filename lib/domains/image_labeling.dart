@@ -19,8 +19,7 @@ class ImageLabeling {
     print("--------------------------");
 
     return imageLabel[0];
-    // todo: 結構ScreenshotとかPosterになるので、カスタムモデルも検討
-    //       https://developers.google.com/ml-kit/vision/image-labeling?hl=ja#custom-tflite
+    // todo: 結構ScreenshotとかPosterになるので、オブジェクトトラッキングで画像を切り取りラベリングする
   }
 
   closeResources() async {
