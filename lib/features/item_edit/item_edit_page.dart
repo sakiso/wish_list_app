@@ -25,7 +25,7 @@ class ItemEditPage extends ConsumerWidget {
         child: Column(
           children: [
             // todo: 高さ決めてスクロールできるようにする
-            Text(ref.watch(wishItemProvider).recognizedText.text),
+            SelectableText(ref.watch(wishItemProvider).recognizedText.text),
             // 価格入力欄
             Row(
               children: [
