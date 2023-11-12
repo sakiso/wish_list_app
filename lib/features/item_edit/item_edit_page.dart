@@ -66,7 +66,7 @@ class ItemEditPage extends ConsumerWidget {
                   child: TextFormField(
                     key: priceFieldKey,
                     initialValue:
-                        ref.watch(wishItemProvider).price.priceWithCurrency,
+                        ref.watch(wishItemProvider).price.withCurrency,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.end,
                     inputFormatters: [

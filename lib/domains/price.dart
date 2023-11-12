@@ -10,7 +10,7 @@ class Price {
   //       Isar4系からはこの制約はなくなるらしい
   Price([this.price = 0]);
 
-  String get priceWithCurrency {
+  String get withCurrency {
     // 円固定
     return "¥${formatter.format(price)}";
   }

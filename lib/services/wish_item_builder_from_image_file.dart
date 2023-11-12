@@ -20,7 +20,8 @@ Future<WishItem> wishItemBuilderFromImageFile(File imageFile) async {
   final objectDetector = ObjectDetection(imageFile);
   final object = await objectDetector.detect();
 
-  // 画像の代表オブジェクト部分切り出し(該当なしの場合あり)
+  // 画像の代表オブジェクト部分切り出し(オブジェクトが検出されないこともある)
+  // todo: 代表オブジェクトがないときはスクショを小さめのjpgに変換する
   File? croppedImageFile;
   if (object != null) {
     final ImageCropper imageCropper =

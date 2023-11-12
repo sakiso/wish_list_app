@@ -6,12 +6,13 @@ part 'wish_item.g.dart';
 
 @collection
 class WishItem {
-  Id id;
+  Id? id;
   final String name;
   final String brand;
   final String label; // todo: 画面上「カテゴリー」と言っているところがあるので統一する
   final String recognizedText;
   final Price price;
+  DateTime? createdAt;
 
 // todo: 画像も表示できるようにする
 
@@ -23,6 +24,17 @@ class WishItem {
     required this.recognizedText,
     required this.price,
   });
+
+  static WishItem buildBlankWishItem() {
+    return WishItem(
+      id: null,
+      name: "",
+      brand: "",
+      label: "",
+      recognizedText: "",
+      price: Price(0),
+    );
+  }
 
   WishItem copyWith({
     String? inputName,

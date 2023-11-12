@@ -22,24 +22,29 @@ const WishItemSchema = CollectionSchema(
       name: r'brand',
       type: IsarType.string,
     ),
-    r'label': PropertySchema(
+    r'createdAt': PropertySchema(
       id: 1,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'label': PropertySchema(
+      id: 2,
       name: r'label',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     ),
     r'price': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'price',
       type: IsarType.object,
       target: r'Price',
     ),
     r'recognizedText': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'recognizedText',
       type: IsarType.string,
     )
@@ -80,15 +85,16 @@ void _wishItemSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.brand);
-  writer.writeString(offsets[1], object.label);
-  writer.writeString(offsets[2], object.name);
+  writer.writeDateTime(offsets[1], object.createdAt);
+  writer.writeString(offsets[2], object.label);
+  writer.writeString(offsets[3], object.name);
   writer.writeObject<Price>(
-    offsets[3],
+    offsets[4],
     allOffsets,
     PriceSchema.serialize,
     object.price,
   );
-  writer.writeString(offsets[4], object.recognizedText);
+  writer.writeString(offsets[5], object.recognizedText);
 }
 
 WishItem _wishItemDeserialize(
@@ -100,16 +106,17 @@ WishItem _wishItemDeserialize(
   final object = WishItem(
     brand: reader.readString(offsets[0]),
     id: id,
-    label: reader.readString(offsets[1]),
-    name: reader.readString(offsets[2]),
+    label: reader.readString(offsets[2]),
+    name: reader.readString(offsets[3]),
     price: reader.readObjectOrNull<Price>(
-          offsets[3],
+          offsets[4],
           PriceSchema.deserialize,
           allOffsets,
         ) ??
         Price(),
-    recognizedText: reader.readString(offsets[4]),
+    recognizedText: reader.readString(offsets[5]),
   );
+  object.createdAt = reader.readDateTimeOrNull(offsets[1]);
   return object;
 }
 
@@ -123,17 +130,19 @@ P _wishItemDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readObjectOrNull<Price>(
             offset,
             PriceSchema.deserialize,
             allOffsets,
           ) ??
           Price()) as P;
-    case 4:
+    case 5:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -141,7 +150,7 @@ P _wishItemDeserializeProp<P>(
 }
 
 Id _wishItemGetId(WishItem object) {
-  return object.id;
+  return object.id ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _wishItemGetLinks(WishItem object) {
@@ -359,7 +368,92 @@ extension WishItemQueryFilter
     });
   }
 
-  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> createdAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'createdAt',
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> createdAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'createdAt',
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> createdAtEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> createdAtGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> createdAtLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> createdAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> idIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> idIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterFilterCondition> idEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -369,7 +463,7 @@ extension WishItemQueryFilter
   }
 
   QueryBuilder<WishItem, WishItem, QAfterFilterCondition> idGreaterThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -382,7 +476,7 @@ extension WishItemQueryFilter
   }
 
   QueryBuilder<WishItem, WishItem, QAfterFilterCondition> idLessThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -395,8 +489,8 @@ extension WishItemQueryFilter
   }
 
   QueryBuilder<WishItem, WishItem, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
+    Id? lower,
+    Id? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -833,6 +927,18 @@ extension WishItemQuerySortBy on QueryBuilder<WishItem, WishItem, QSortBy> {
     });
   }
 
+  QueryBuilder<WishItem, WishItem, QAfterSortBy> sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterSortBy> sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<WishItem, WishItem, QAfterSortBy> sortByLabel() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'label', Sort.asc);
@@ -881,6 +987,18 @@ extension WishItemQuerySortThenBy
   QueryBuilder<WishItem, WishItem, QAfterSortBy> thenByBrandDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'brand', Sort.desc);
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterSortBy> thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<WishItem, WishItem, QAfterSortBy> thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
@@ -942,6 +1060,12 @@ extension WishItemQueryWhereDistinct
     });
   }
 
+  QueryBuilder<WishItem, WishItem, QDistinct> distinctByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
   QueryBuilder<WishItem, WishItem, QDistinct> distinctByLabel(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -976,6 +1100,12 @@ extension WishItemQueryProperty
   QueryBuilder<WishItem, String, QQueryOperations> brandProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'brand');
+    });
+  }
+
+  QueryBuilder<WishItem, DateTime?, QQueryOperations> createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
     });
   }
 

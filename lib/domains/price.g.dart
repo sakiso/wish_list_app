@@ -18,9 +18,9 @@ const PriceSchema = Schema(
       name: r'price',
       type: IsarType.long,
     ),
-    r'priceWithCurrency': PropertySchema(
+    r'withCurrency': PropertySchema(
       id: 1,
-      name: r'priceWithCurrency',
+      name: r'withCurrency',
       type: IsarType.string,
     )
   },
@@ -36,7 +36,7 @@ int _priceEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.priceWithCurrency.length * 3;
+  bytesCount += 3 + object.withCurrency.length * 3;
   return bytesCount;
 }
 
@@ -47,7 +47,7 @@ void _priceSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.price);
-  writer.writeString(offsets[1], object.priceWithCurrency);
+  writer.writeString(offsets[1], object.withCurrency);
 }
 
 Price _priceDeserialize(
@@ -131,21 +131,20 @@ extension PriceQueryFilter on QueryBuilder<Price, Price, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyEqualTo(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition>
-      priceWithCurrencyGreaterThan(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -153,14 +152,14 @@ extension PriceQueryFilter on QueryBuilder<Price, Price, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyLessThan(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -168,14 +167,14 @@ extension PriceQueryFilter on QueryBuilder<Price, Price, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyBetween(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -184,7 +183,7 @@ extension PriceQueryFilter on QueryBuilder<Price, Price, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -194,70 +193,69 @@ extension PriceQueryFilter on QueryBuilder<Price, Price, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyStartsWith(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyEndsWith(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyContains(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyMatches(
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition> priceWithCurrencyIsEmpty() {
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<Price, Price, QAfterFilterCondition>
-      priceWithCurrencyIsNotEmpty() {
+  QueryBuilder<Price, Price, QAfterFilterCondition> withCurrencyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'priceWithCurrency',
+        property: r'withCurrency',
         value: '',
       ));
     });
