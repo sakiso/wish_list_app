@@ -16,7 +16,9 @@ class WishItemRepository implements IWishItemRepository {
   @override
   Future<void> saveWishItem(ref, WishItem wishItem) async {
     final isar = await _isar(ref);
-    await isar.wishItems.put(wishItem);
+    await isar.writeTxn(() async {
+      await isar.wishItems.put(wishItem);
+    });
   }
 
   Future<Isar> _isar(ref) async {
