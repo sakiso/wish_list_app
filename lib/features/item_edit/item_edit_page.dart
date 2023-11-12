@@ -1,11 +1,22 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../domains/price.dart';
+import '../../domains/wish_item.dart';
+import '../../interfaces/wish_item_repository_interface.dart';
 import '../../providers/wish_item_provider.dart';
+import '../../repositories/wish_item_repository.dart';
 import 'price_input_formatter.dart';
 
+final formKey = GlobalKey<FormState>();
+
 class ItemEditPage extends ConsumerWidget {
-  const ItemEditPage({Key? key}) : super(key: key);
+  final priceFieldKey = GlobalKey<FormFieldState>();
+  final brandFieldKey = GlobalKey<FormFieldState>();
+  final categoryFieldKey = GlobalKey<FormFieldState>();
+
+  ItemEditPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,6 +33,7 @@ class ItemEditPage extends ConsumerWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Form(
+        key: formKey,
         child: Column(
           children: [
             SizedBox(
@@ -40,6 +52,7 @@ class ItemEditPage extends ConsumerWidget {
                 const Spacer(),
                 Flexible(
                   child: TextFormField(
+                    key: priceFieldKey,
                     initialValue:
                         ref.watch(wishItemProvider).price.priceWithCurrency,
                     keyboardType: TextInputType.number,
@@ -59,6 +72,7 @@ class ItemEditPage extends ConsumerWidget {
                 const Spacer(),
                 Flexible(
                   child: TextFormField(
+                    key: brandFieldKey,
                     textAlign: TextAlign.end,
                   ),
                 ),
@@ -71,15 +85,45 @@ class ItemEditPage extends ConsumerWidget {
                 const Spacer(),
                 Flexible(
                   child: TextFormField(
+                    key: categoryFieldKey,
                     textAlign: TextAlign.end,
                     initialValue: ref.watch(wishItemProvider).label,
                   ),
                 ),
               ],
             ),
+            TextButton(
+                onPressed: () {
+                  _saveWishItem(ref);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).colorScheme.primary),
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).colorScheme.onPrimary),
+                ),
+                child: const Text("保存")),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _saveWishItem(ref) async {
+    // todo: validation(Form & model両方で?)
+    print("--- formKey.currentState -------------");
+    final price = Price.fromString(priceFieldKey.currentState!.value);
+    final String brand = brandFieldKey.currentState!.value;
+    final String category = categoryFieldKey.currentState!.value;
+
+    IWishItemRepository wishItemRepository = WishItemRepository();
+    ref
+        .read(wishItemProvider.notifier)
+        .update((WishItem wishItem) => wishItem.copyWith(
+              inputPrice: price,
+              inputBrand: brand,
+              inputLabel: categoryFieldKey.currentState!.value,
+            ));
+    wishItemRepository.saveWishItem(ref, wishItem);
   }
 }

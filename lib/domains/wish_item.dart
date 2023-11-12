@@ -9,7 +9,7 @@ class WishItem {
   Id id;
   final String name;
   final String brand;
-  final String label;
+  final String label; // todo: 画面上「カテゴリー」と言っているところがあるので統一する
   final String recognizedText;
   final Price price;
 
@@ -23,4 +23,21 @@ class WishItem {
     required this.recognizedText,
     required this.price,
   });
+
+  WishItem copyWith({
+    String? inputName,
+    String? inputBrand,
+    String? inputLabel,
+    String? inputRecognizedText,
+    Price? inputPrice,
+  }) {
+    return WishItem(
+      id: Isar.autoIncrement,
+      name: inputName ?? name,
+      brand: inputBrand ?? brand,
+      label: inputLabel ?? label,
+      recognizedText: inputRecognizedText ?? recognizedText,
+      price: inputPrice ?? price,
+    );
+  }
 }

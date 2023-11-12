@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const TopPage(),
-        '/item_edit': (context) => const ItemEditPage(),
+        '/item_edit': (context) => ItemEditPage(),
       },
     );
   }

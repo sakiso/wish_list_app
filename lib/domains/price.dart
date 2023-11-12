@@ -18,4 +18,15 @@ class Price {
   static NumberFormat get formatter {
     return NumberFormat("#,###");
   }
+
+  static Price fromString(String priceString) {
+    priceString = priceString.replaceAll("¥", "");
+    priceString = priceString.replaceAll(",", "");
+
+    if (int.tryParse(priceString) == null) {
+      throw ArgumentError("$priceString を数値に変換できませんでした");
+    }
+
+    return Price(int.parse(priceString));
+  }
 }
