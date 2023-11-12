@@ -55,6 +55,7 @@ dev_dependencies:
   build_runner: 2.3.3 # Isar, Providerで必要
   isar_generator: 3.1.0 # Isarで必要
   riverpod_generator: 2.3.3 # riverpod_lintと依存関係が競合するので2.3.3で止める
+  custom_lint: 0.5.6
   riverpod_lint: 2.1.1 # isar_generatorと依存関係が競合するので2.1.1で止める
 
   # The "flutter_lints" package below contains a set of recommended lints to
