@@ -45,8 +45,8 @@ Future<WishItem> wishItemBuilderFromImageFile(File imageFile) async {
   return WishItem(
     name: "",
     brand: "",
-    imageLabel: imageLabel,
-    recognizedText: recognizedText,
+    label: imageLabel.label,
+    recognizedText: recognizedText.text,
     price: Price(itemPrice),
   );
 }

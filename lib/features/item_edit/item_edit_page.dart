@@ -29,7 +29,7 @@ class ItemEditPage extends ConsumerWidget {
               child: Scrollbar(
                 child: SingleChildScrollView(
                   child: SelectableText(
-                      ref.watch(wishItemProvider).recognizedText.text),
+                      ref.watch(wishItemProvider).recognizedText),
                 ),
               ),
             ),
