@@ -24,8 +24,15 @@ class ItemEditPage extends ConsumerWidget {
       body: Form(
         child: Column(
           children: [
-            // todo: 高さ決めてスクロールできるようにする
-            SelectableText(ref.watch(wishItemProvider).recognizedText.text),
+            SizedBox(
+              height: 190,
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                  child: SelectableText(
+                      ref.watch(wishItemProvider).recognizedText.text),
+                ),
+              ),
+            ),
             // 価格入力欄
             Row(
               children: [
