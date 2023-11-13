@@ -142,5 +142,7 @@ class ItemEditPage extends ConsumerWidget {
 
     // wishItemProviderのstateは破棄しといて、新しいWishItemつくって、リポジトリで保存する
     wishItemRepository.saveWishItem(ref, wishItem);
+
+    // todo: 保存完了したら、topPageに戻る
   }
 }

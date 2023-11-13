@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:wish_list_app/services/image_cropper.dart';
 
-import '../domains/extract_price_from_recognized_text.dart';
-import '../domains/image_labeling.dart';
-import '../domains/object_detection.dart';
+import '../services/extract_price_from_recognized_text.dart';
+import '../services/image_labeling.dart';
+import '../services/object_detection.dart';
+import '../services/text_recognize.dart';
 import '../domains/price.dart';
-import '../domains/text_recognize.dart';
 import '../domains/wish_item.dart';
 
 Future<WishItem> wishItemBuilderFromImageFile(File imageFile) async {
