@@ -12,7 +12,7 @@ class WishItemRepository implements IWishItemRepository {
     final isar = await _isar(ref);
     return await isar.wishItems
         .where()
-        .sortByCreatedAt()
+        .sortByCreatedAtDesc()
         .limit(limit)
         .findAll();
   }

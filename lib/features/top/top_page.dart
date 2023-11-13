@@ -133,6 +133,7 @@ class TopPageState extends ConsumerState<TopPage> {
                   (wishItem) => ListTile(
                     title: Text(wishItem.name),
                     subtitle: Text(wishItem.price.withCurrency),
+                    // todo: いつ登録したか出す
                     // todo: Cardつかっていい感じのデザインにする
                     //       https://api.flutter.dev/flutter/material/ListTile-class.html
                     // todo: image実装したらコメントアウト外す
